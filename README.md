@@ -33,8 +33,8 @@ The car sensors are basically 2D lines which are protruding out of the front of 
 </p> 
 
 <h2>References </h2>
-<a href='http://www.scholarpedia.org/article/Neuroevolution'> What is NeuroEvolution </a> 
-<a href='https://en.wikipedia.org/wiki/Ray_casting'> What is raycasting? </a> 
-<a href='https://p5js.org/'> p5.js </a> - For drawing 2D graphics
-<a href='https://www.youtube.com/user/shiffman'> Inspiration </a> 
+<a href='http://www.scholarpedia.org/article/Neuroevolution'> What is NeuroEvolution </a> <br>  
+<a href='https://en.wikipedia.org/wiki/Ray_casting'> What is raycasting? </a> <br> 
+<a href='https://p5js.org/'> p5.js </a> - For drawing 2D graphics  <br> 
+<a href='https://www.youtube.com/user/shiffman'> Inspiration </a>  <br> 
 
