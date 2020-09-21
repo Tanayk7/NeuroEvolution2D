@@ -2,8 +2,7 @@
 
 <h2> What is neuroevolution? </h2> 
 <p> 
-Neuroevolution is a machine learning technique that applies evolutionary a
-lgorithms to construct artificial neural networks, taking inspiration from
+Neuroevolution is a machine learning technique that applies evolutionary algorithms to construct artificial neural networks, taking inspiration from
 the evolution of biological nervous systems in nature. Compared to other neural 
 network learning methods, neuroevolution is highly general; it allows learning without 
 explicit targets, with only sparse feedback, and with arbitrary neural models and network structures. 
