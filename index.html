@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.dom.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.1.0/dist/tf.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+      integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Exo+2&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="nn.js"></script>
+    <script src="ga.js"></script>
+    <script src="ray.js"></script>
+    <script src="boundary.js"></script>
+    <script src="particle.js"></script>
+    <script src="sketch.js"></script>
+    <script src="wave.js"></script>
+
+    <style>
+      .slidecontainer {
+        width: 70%;
+        grid-column: 1;
+        align-self: center;
+        justify-self: center;
+      }
+
+      .slider {
+        margin-left: 20px;
+        -webkit-appearance: none;
+        border-radius: 15px;
+        width: 100%;
+        height: 10px;
+        background: #202020;
+        outline: none;
+        opacity: 1;
+        -webkit-transition: 0.2s;
+        transition: opacity 0.2s;
+      }
+
+      .slider:hover {
+        opacity: 0.8;
+      }
+
+      .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 15px;
+        background: #00ddec;
+        cursor: pointer;
+
+        transition-property: transform;
+        transition-duration: 0.2s;
+      }
+
+      .slider::-webkit-slider-thumb:hover {
+        transform: scale(1.5);
+      }
+
+      .slider::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        background: #353535;
+        cursor: pointer;
+      }
+    </style>
+    <title>Neuro Evolution</title>
+  </head>
+  <body>
+    <!--NAVBAR -->
+    <div class="nav-container" style="margin-bottom: 0px">
+      <nav>
+        <input type="checkbox" id="nav-toggle" />
+        <label for="nav-toggle" class="burger-menu">
+          <img
+            src="images/hamburgerIcon.png"
+            style="width: 40px; height: 40px; color: white"
+            alt=""
+          />
+        </label>
+        <a href="#" class="logo">Neuroevolution</a>
+        <div class="left-menu">
+          <a href="#" class="nav-link">Home</a>
+        </div>
+      </nav>
+    </div>
+    <!--NAVBAR -->
+
+    <!--MAIN CONTENT-->
+    <div class="main-layout">
+      <div id="sketch-holder"></div>
+
+      <div class="controls" id="control-menu">
+        <div class="controls-header" style="position: fixed">
+          <div class="settings">
+            <i class="fas fa-play" id="play-button"></i>
+            <div class="divider"></div>
+            <i class="fas fa-sliders-h" id="settings-button"></i>
+            <div class="divider"></div>
+          </div>
+        </div>
+
+        <div class="sliders" id="settings-sliders">
+          <h1
+            style="
+              font-size: 25px;
+              padding-top: 80px;
+              text-align: center;
+              font-family: 'Exo 2', sans-serif;
+              color: #ffffff;
+            "
+          >
+            Simulation settings
+          </h1>
+          <hr style="width: 90%; border: 1px solid gray" />
+          <p class="settings-option">Mutation rate</p>
+          <div class="layout-wrapper">
+            <div class="slidecontainer">
+              <input
+                id="mutationSlider"
+                type="range"
+                min="1"
+                max="100"
+                value="1"
+                class="slider"
+              />
+            </div>
+            <span class="stats" id="mutationStat"></span>
+          </div>
+
+          <p class="settings-option">Vision</p>
+          <div class="layout-wrapper">
+            <div class="slidecontainer">
+              <input
+                type="range"
+                min="50"
+                max="100"
+                value="50"
+                class="slider"
+                id="visionSlider"
+              />
+            </div>
+            <span class="stats" id="visionStat"></span>
+          </div>
+
+          <p class="settings-option">Simulation speed</p>
+          <div class="layout-wrapper">
+            <div class="slidecontainer">
+              <input
+                type="range"
+                min="1"
+                max="100"
+                value="1"
+                class="slider"
+                id="speedSlider"
+              />
+            </div>
+            <span class="stats" id="speedStat"></span>
+          </div>
+
+          <p class="settings-option">Max fitness</p>
+          <div class="layout-wrapper">
+            <div class="slidecontainer">
+              <input
+                type="range"
+                min="200"
+                max="1000"
+                value="200"
+                class="slider"
+                id="fitnessSlider"
+              />
+            </div>
+            <span class="stats" id="fitnessStat"></span>
+          </div>
+
+          <!-- <h1
+            style="
+              font-size: 25px;
+              padding-top: 50px;
+              text-align: center;
+              font-family: 'Exo 2', sans-serif;
+              color: #ffffff;
+            "
+          >
+            Map settings
+          </h1>
+          <hr style="width: 90%; border: 1px solid gray;" />
+          <p class="settings-option">Path width</p>
+          <div class="layout-wrapper">
+            <div class="slidecontainer">
+              <input
+                type="range"
+                min="200"
+                max="1000"
+                value="200"
+                class="slider"
+                id="fitnessSlider"
+              />
+            </div>
+            <span class="stats" id="fitnessStat"></span>
+          </div>
+
+          <p class="settings-option">Path smoothness</p>
+          <div class="layout-wrapper">
+            <div class="slidecontainer">
+              <input
+                type="range"
+                min="200"
+                max="1000"
+                value="200"
+                class="slider"
+                id="fitnessSlider"
+              />
+            </div>
+            <span class="stats" id="fitnessStat"></span>
+          </div>
+
+          <p class="settings-option">Noise</p>
+          <div class="layout-wrapper">
+            <div class="slidecontainer">
+              <input
+                type="range"
+                min="200"
+                max="1000"
+                value="200"
+                class="slider"
+                id="fitnessSlider"
+              />
+            </div>
+            <span class="stats" id="fitnessStat"></span>
+          </div> -->
+        </div>
+
+        <div class="main-controls" id="control-buttons">
+          <h1>Main controls</h1>
+          <hr
+            style="width: 90%; border: 1px solid #00ddec; margin-bottom: 30px"
+          />
+          <button class="control-button" id="simulateButton">Simulate</button>
+          <button class="control-button" id="pauseButton">Pause</button>
+          <button class="control-button" id="restartButton">Restart</button>
+        </div>
+      </div>
+    </div>
+    <!--MAIN CONTENT-->
+  </body>
+  <script>
+    var playButton = document.getElementById("play-button");
+    var settingsButton = document.getElementById("settings-button");
+    var sliders = document.getElementById("settings-sliders");
+    var active = "play";
+    var mainControls = document.getElementById("control-buttons");
+
+    var simulateButton = document.getElementById("simulateButton");
+    var pauseButton = document.getElementById("pauseButton");
+    var restartButton = document.getElementById("restartButton");
+
+    simulateButton.addEventListener("click", function () {
+      appState.simulate = true;
+      appState.pause = false;
+      appState.restart = false;
+    });
+    pauseButton.addEventListener("click", function () {
+      appState.simulate = false;
+      appState.pause = true;
+    });
+    restartButton.addEventListener("click", function () {
+      appState.pause = false;
+      appState.restart = true;
+      appState.simulate = true;
+    });
+
+    playButton.addEventListener("click", function () {
+      if (active != "play") {
+        sliders.classList.add("fade-out");
+        sliders.style.display = "none";
+        active = "play";
+        mainControls.style.display = "grid";
+      }
+    });
+
+    settingsButton.addEventListener("click", function () {
+      if (active != "settings") {
+        sliders.style.display = "grid";
+        sliders.classList.add("fade-in");
+        active = "settings";
+        mainControls.style.display = "none";
+      }
+    });
+  </script>
+</html>
